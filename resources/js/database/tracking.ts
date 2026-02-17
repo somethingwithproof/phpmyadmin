@@ -17,7 +17,7 @@ AJAX.registerTeardown('database/tracking.js', function () {
  * Bind event handlers
  */
 AJAX.registerOnload('database/tracking.js', function () {
-    const $versions = $('#versions');
+    var $versions = $('#versions');
     $versions.find('tr').first().find('th').append($('<div class="sorticon"></div>'));
     $versions.tablesorter({
         sortList: [[1, 0]],
@@ -30,7 +30,7 @@ AJAX.registerOnload('database/tracking.js', function () {
         }
     });
 
-    const $noVersions = $('#noversions');
+    var $noVersions = $('#noversions');
     $noVersions.find('tr').first().find('th').append($('<div class="sorticon"></div>'));
     $noVersions.tablesorter({
         sortList: [[1, 0]],
@@ -40,20 +40,20 @@ AJAX.registerOnload('database/tracking.js', function () {
         }
     });
 
-    const $body = $('body');
+    var $body = $('body');
 
     /**
      * Handles multi submit for tracked tables
      */
     $body.on('click', '#trackedForm.ajax button[name="submit_mult"], #trackedForm.ajax input[name="submit_mult"]', function (e) {
         e.preventDefault();
-        const $button = $(this);
-        const $form = $button.parent('form');
-        const argsep = CommonParams.get('arg_separator');
-        const submitData = $form.serialize() + argsep + 'ajax_request=true' + argsep + 'ajax_page_request=true' + argsep + 'submit_mult=' + $button.val();
+        var $button = $(this);
+        var $form = $button.parent('form');
+        var argsep = CommonParams.get('arg_separator');
+        var submitData = $form.serialize() + argsep + 'ajax_request=true' + argsep + 'ajax_page_request=true' + argsep + 'submit_mult=' + $button.val();
 
         if ($button.val() === 'delete_tracking') {
-            const question = window.Messages.strDeleteTrackingDataMultiple;
+            var question = window.Messages.strDeleteTrackingDataMultiple;
             $button.confirm(question, $form.attr('action'), function (url) {
                 ajaxShowMessage(window.Messages.strDeletingTrackingData);
                 AJAX.source = $form;
@@ -71,10 +71,10 @@ AJAX.registerOnload('database/tracking.js', function () {
      */
     $body.on('click', '#untrackedForm.ajax button[name="submit_mult"], #untrackedForm.ajax input[name="submit_mult"]', function (e) {
         e.preventDefault();
-        const $button = $(this);
-        const $form = $button.parent('form');
-        const argsep = CommonParams.get('arg_separator');
-        const submitData = $form.serialize() + argsep + 'ajax_request=true' + argsep + 'ajax_page_request=true' + argsep + 'submit_mult=' + $button.val();
+        var $button = $(this);
+        var $form = $button.parent('form');
+        var argsep = CommonParams.get('arg_separator');
+        var submitData = $form.serialize() + argsep + 'ajax_request=true' + argsep + 'ajax_page_request=true' + argsep + 'submit_mult=' + $button.val();
         ajaxShowMessage();
         AJAX.source = $form;
         $.post($form.attr('action'), submitData, AJAX.responseHandler);
@@ -85,13 +85,13 @@ AJAX.registerOnload('database/tracking.js', function () {
      */
     $body.on('click', 'a.delete_tracking_anchor.ajax', function (e) {
         e.preventDefault();
-        const $anchor = $(this);
-        const question = window.Messages.strDeleteTrackingData;
+        var $anchor = $(this);
+        var question = window.Messages.strDeleteTrackingData;
         $anchor.confirm(question, $anchor.attr('href'), function (url) {
             ajaxShowMessage(window.Messages.strDeletingTrackingData);
             AJAX.source = $anchor;
-            const argSep = CommonParams.get('arg_separator');
-            let params = getJsConfirmCommonParam(this, $anchor.getPostData());
+            var argSep = CommonParams.get('arg_separator');
+            var params = getJsConfirmCommonParam(this, $anchor.getPostData());
             params += argSep + 'ajax_page_request=1';
             $.post(url, params, AJAX.responseHandler);
         });

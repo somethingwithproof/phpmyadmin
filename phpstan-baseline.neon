@@ -313,7 +313,7 @@ parameters:
 			path: src/Config.php
 
 		-
-			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\<mixed\>\.$#'
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\<mixed\>\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/Config.php
@@ -994,7 +994,7 @@ parameters:
 			path: src/Config/UserPreferencesHandler.php
 
 		-
-			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\.$#'
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/Config/UserPreferencesHandler.php
@@ -2020,7 +2020,7 @@ parameters:
 			path: src/Controllers/Import/ImportController.php
 
 		-
-			message: '#^Parameter \#1 \$backUrl of static method PhpMyAdmin\\Html\\Generator\:\:getBackUrlHtml\(\) expects string, mixed given\.$#'
+			message: '#^Parameter \#4 \$backUrl of static method PhpMyAdmin\\Html\\Generator\:\:mysqlDie\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Controllers/Import/ImportController.php
@@ -2206,7 +2206,7 @@ parameters:
 			path: src/Controllers/Preferences/ManageController.php
 
 		-
-			message: '#^Parameter \#1 \$fileName of method PhpMyAdmin\\Config\\UserPreferences\:\:getUrlToRedirect\(\) expects string, string\|false given\.$#'
+			message: '#^Parameter \#1 \$fileName of method PhpMyAdmin\\Config\\UserPreferences\:\:redirect\(\) expects string, string\|false given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Controllers/Preferences/ManageController.php
@@ -6974,6 +6974,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getInstance\(\) of class PhpMyAdmin\\Dbal\\DatabaseInterface\:
+				Use dependency injection instead\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: src/Http/Middleware/ProfilingChecking.php
+
+		-
+			message: '''
 				#^Access to deprecated static property \$route of class PhpMyAdmin\\Routing\\Routing\:
 				Use \{@see ServerRequest\:\:getRoute\(\)\} instead\.$#
 			'''
@@ -6989,6 +6998,12 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: src/Http/Middleware/StatementHistory.php
+
+		-
+			message: '#^Parameter \#1 \$known_string of function hash_equals expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Http/Middleware/TokenRequestParamChecking.php
 
 		-
 			message: '#^Method PhpMyAdmin\\Http\\ServerRequest\:\:getAttributes\(\) return type has no value type specified in iterable type array\.$#'
@@ -10801,6 +10816,24 @@ parameters:
 			path: src/Replication/ReplicationInfo.php
 
 		-
+			message: '''
+				#^Call to deprecated method getInstance\(\) of class PhpMyAdmin\\Config\:
+				Use dependency injection instead\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: src/ResponseRenderer.php
+
+		-
+			message: '''
+				#^Call to deprecated method getInstance\(\) of class PhpMyAdmin\\Dbal\\DatabaseInterface\:
+				Use dependency injection instead\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: src/ResponseRenderer.php
+
+		-
 			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
 			identifier: empty.notAllowed
 			count: 1
@@ -11612,6 +11645,12 @@ parameters:
 			identifier: class.nameCase
 			count: 1
 			path: src/Server/SysInfo/WindowsNt.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 3
+			path: src/Session.php
 
 		-
 			message: '#^Only booleans are allowed in &&, string\|false given on the left side\.$#'
@@ -12979,6 +13018,12 @@ parameters:
 			path: src/UserPassword.php
 
 		-
+			message: '#^Only booleans are allowed in a negated boolean, PhpMyAdmin\\Dbal\\ResultInterface\|false given\.$#'
+			identifier: booleanNot.exprNotBoolean
+			count: 1
+			path: src/UserPassword.php
+
+		-
 			message: '#^Parameter \#1 \$password of method PhpMyAdmin\\Server\\Privileges\:\:getHashedPassword\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -14175,7 +14220,7 @@ parameters:
 				Use dependency injection instead\.$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 7
+			count: 8
 			path: tests/unit/Config/UserPreferencesTest.php
 
 		-
@@ -14184,7 +14229,7 @@ parameters:
 				Use dependency injection instead\.$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 7
+			count: 8
 			path: tests/unit/Config/UserPreferencesTest.php
 
 		-
@@ -14236,7 +14281,7 @@ parameters:
 			path: tests/unit/Config/UserPreferencesTest.php
 
 		-
-			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{''Server/hide_db''\: ''testval123'', ''Server/port''\: ''213''\}\.$#'
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{''Server/hide_db''\: ''testval123'', ''Server/port''\: ''213''\}\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: tests/unit/Config/UserPreferencesTest.php
@@ -14267,6 +14312,12 @@ parameters:
 			identifier: assign.propertyType
 			count: 5
 			path: tests/unit/ConfigStorage/RelationTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertArrayHasKey\(\) with ''Server'' and array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\} will always evaluate to false\.$#'
+			identifier: staticMethod.impossibleType
+			count: 1
+			path: tests/unit/ConfigTest.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array\<int\<1, max\>, array\{host\: string, port\: string, socket\: string, ssl\: bool, ssl_key\: string\|null, ssl_cert\: string\|null, ssl_ca\: string\|null, ssl_ca_path\: string\|null, \.\.\.\}\> will always evaluate to true\.$#'
@@ -14559,6 +14610,12 @@ parameters:
 				Use dependency injection instead\.$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 1
+			path: tests/unit/Controllers/Operations/TableControllerTest.php
+
+		-
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: tests/unit/Controllers/Operations/TableControllerTest.php
 
@@ -15417,7 +15474,7 @@ parameters:
 				Use dependency injection instead\.$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 9
+			count: 10
 			path: tests/unit/Display/ResultsTest.php
 
 		-
@@ -15484,6 +15541,12 @@ parameters:
 			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertStringContainsString\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 4
+			path: tests/unit/Display/ResultsTest.php
+
+		-
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
+			identifier: assign.propertyType
+			count: 3
 			path: tests/unit/Display/ResultsTest.php
 
 		-
@@ -16120,7 +16183,7 @@ parameters:
 			path: tests/unit/Plugins/Auth/AuthenticationConfigTest.php
 
 		-
-			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: tests/unit/Plugins/Auth/AuthenticationConfigTest.php
@@ -16177,7 +16240,7 @@ parameters:
 			path: tests/unit/Plugins/Auth/AuthenticationCookieTest.php
 
 		-
-			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
 			identifier: assign.propertyType
 			count: 6
 			path: tests/unit/Plugins/Auth/AuthenticationCookieTest.php
@@ -16198,7 +16261,7 @@ parameters:
 			path: tests/unit/Plugins/Auth/AuthenticationHttpTest.php
 
 		-
-			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
 			identifier: assign.propertyType
 			count: 2
 			path: tests/unit/Plugins/Auth/AuthenticationHttpTest.php
@@ -16399,7 +16462,7 @@ parameters:
 			path: tests/unit/PluginsTest.php
 
 		-
-			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: tests/unit/PluginsTest.php
@@ -16534,9 +16597,9 @@ parameters:
 			path: tests/unit/Server/SelectTest.php
 
 		-
-			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
 			identifier: assign.propertyType
-			count: 1
+			count: 2
 			path: tests/unit/Server/SelectTest.php
 
 		-
@@ -16728,6 +16791,21 @@ parameters:
 				Use dependency injection instead\.$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 1
+			path: tests/unit/TransformationsTest.php
+
+		-
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{ServerDefault\: 1, ActionLinksMode\: ''icons''\}\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: tests/unit/TransformationsTest.php
+
+		-
+			message: '''
+				#^Call to deprecated method getInstance\(\) of class PhpMyAdmin\\Config\:
+				Use dependency injection instead\.$#
+			'''
+			identifier: staticMethod.deprecated
 			count: 5
 			path: tests/unit/Triggers/TriggersTest.php
 
@@ -16815,7 +16893,7 @@ parameters:
 				Use dependency injection instead\.$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 3
+			count: 4
 			path: tests/unit/UtilTest.php
 
 		-
@@ -16938,7 +17016,7 @@ parameters:
 				Use dependency injection instead\.$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 4
+			count: 5
 			path: tests/unit/VersionInformationTest.php
 
 		-
@@ -16948,7 +17026,7 @@ parameters:
 			path: tests/unit/VersionInformationTest.php
 
 		-
-			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, SuhosinDisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
+			message: '#^Property PhpMyAdmin\\Config\:\:\$settings \(array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\) does not accept array\{PmaAbsoluteUri\: string, AuthLog\: string, AuthLogSuccess\: bool, PmaNoRelation_DisableWarning\: bool, LoginCookieValidityDisableWarning\: bool, ReservedWordDisableWarning\: bool, TranslationWarningThreshold\: int, \.\.\.\}\.$#'
 			identifier: assign.propertyType
 			count: 3
 			path: tests/unit/VersionInformationTest.php

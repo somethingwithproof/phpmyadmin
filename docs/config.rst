@@ -117,15 +117,6 @@ Basic settings
     Whether to log successful authentication attempts into
     :config:option:`$cfg['AuthLog']`.
 
-.. config:option:: $cfg['SuhosinDisableWarning']
-
-    :type: boolean
-    :default: false
-
-    A warning is displayed on the main page if Suhosin is detected.
-
-    You can set this parameter to ``true`` to stop this message from appearing.
-
 .. config:option:: $cfg['LoginCookieValidityDisableWarning']
 
     :type: boolean
