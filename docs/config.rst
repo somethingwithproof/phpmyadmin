@@ -117,6 +117,16 @@ Basic settings
     Whether to log successful authentication attempts into
     :config:option:`$cfg['AuthLog']`.
 
+.. config:option:: $cfg['SuhosinDisableWarning']
+
+    :type: boolean
+    :default: false
+
+    .. versionremoved:: 6.0.0
+
+    This setting has been removed. The Suhosin extension is no longer
+    maintained, and the related warning has been removed from phpMyAdmin.
+
 .. config:option:: $cfg['LoginCookieValidityDisableWarning']
 
     :type: boolean

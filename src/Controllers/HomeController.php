@@ -360,6 +360,23 @@ final class HomeController implements InvocableController
             ];
         }
 
+        $deprecatedSettings = [
+            'SuhosinDisableWarning' => '6.0.0-dev',
+        ];
+
+        foreach ($deprecatedSettings as $key => $version) {
+            if (array_key_exists($key, $this->config->settings)) {
+                $this->errors[] = [
+                    'message' => sprintf(
+                        __('Since phpMyAdmin %s: "$cfg[\'%s\']" is deprecated. You can safely remove it.'),
+                        $version,
+                        $key,
+                    ),
+                    'severity' => 'notice',
+                ];
+            }
+        }
+
         /* Missing template cache */
         if ($this->config->getTempDir('twig') === null) {
             $this->errors[] = [

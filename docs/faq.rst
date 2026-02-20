@@ -590,6 +590,9 @@ To further improve security, we also recommend these modifications:
 * `suhosin.executor.disable_emodifier <https://suhosin5.suhosin.org/stories/config
   uration.html#suhosin-executor-disable-emodifier>`_ should be enabled.
 
+The :config:option:`$cfg['SuhosinDisableWarning']` setting has been removed
+in phpMyAdmin 6.0.0.
+
 .. _faq1_39:
 
 1.39 When I try to connect via https, I can log in, but then my connection is redirected back to http. What can cause this behavior?
