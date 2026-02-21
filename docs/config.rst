@@ -122,10 +122,10 @@ Basic settings
     :type: boolean
     :default: false
 
-    .. versionremoved:: 6.0.0
+    .. deprecated:: 6.0.0
 
-    This setting has been removed. The Suhosin extension is no longer
-    maintained, and the related warning has been removed from phpMyAdmin.
+        This setting has been removed. The Suhosin extension is no longer
+        maintained, and the related warning has been removed from phpMyAdmin.
 
 .. config:option:: $cfg['LoginCookieValidityDisableWarning']
 
