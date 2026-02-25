@@ -140,7 +140,7 @@ final class StructureController implements InvocableController
 
     public function __invoke(ServerRequest $request): Response
     {
-        $parameters = ['sort' => $_REQUEST['sort'] ?? null, 'sort_order' => $_REQUEST['sort_order'] ?? null];
+        $parameters = ['sort' => $request->getParam('sort'), 'sort_order' => $request->getParam('sort_order')];
 
         if (Current::$database === '') {
             return $this->response->missingParameterError('db');
