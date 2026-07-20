@@ -106,7 +106,7 @@ jobs:
         run: composer run phpunit -- --testsuite unit --display-deprecations --display-notices --display-warnings --display-errors
 
       - name: Send coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           flags: unit-${{ matrix.php-version }}-${{ matrix.os }}
           name: phpunit-${{ matrix.php-version }}-${{ matrix.os }}
@@ -164,7 +164,7 @@ jobs:
         run: composer run phpunit -- --testsuite unit
 
       - name: Send coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           flags: ${{ matrix.extension }}-extension
           name: php-${{ matrix.php-version }}-${{ matrix.extension }}-enabled
