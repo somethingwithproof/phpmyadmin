@@ -13,6 +13,12 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      # phpMyAdmin's WebAuthn adapter still targets the 4.x API. Version 5
+      # requires an application-level serializer and ceremony migration.
+      - dependency-name: "web-auth/webauthn-lib"
+        update-types:
+          - "version-update:semver-major"
     groups:
       composer-dependencies:
         patterns:
