@@ -6,6 +6,7 @@ namespace PhpMyAdmin\Tests\Http\Factory;
 
 use GuzzleHttp\Psr7\HttpFactory;
 use HttpSoft\Message\UriFactory as HttpSoftUriFactory;
+use InvalidArgumentException;
 use Laminas\Diactoros\UriFactory as LaminasUriFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PhpMyAdmin\Http\Factory\UriFactory;
@@ -94,7 +95,7 @@ final class UriFactoryTest extends TestCase
             'PHP_AUTH_PW' => 'password',
             'SCRIPT_NAME' => '/index.php',
             'QUERY_STRING' => 'route=/server/plugins',
-            'HTTP_HOST' => 'example.com',
+            'HTTP_HOST' => 'example.com:8080',
         ]);
         self::assertSame('http://username:password@example.com:8080/index.php?route=/server/plugins', (string) $uri);
     }
@@ -126,6 +127,75 @@ final class UriFactoryTest extends TestCase
             'REQUEST_URI' => '/index.php?route=/server/plugins',
         ]);
         self::assertSame('http://[2001:db8::1]/index.php?route=/server/plugins', (string) $uri);
+    }
+
+    /** @psalm-param class-string<UriFactoryInterface> $provider */
+    #[DataProvider('uriFactoryProviders')]
+    public function testCreateFromGlobalsWithIpv6Port(string $provider): void
+    {
+        $this->skipIfNotAvailable($provider);
+        $uriFactory = new UriFactory(new $provider());
+        $uri = $uriFactory->fromGlobals([
+            'HTTP_HOST' => '[2001:DB8::1]:8080',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/index.php',
+        ]);
+
+        self::assertSame('http://[2001:db8::1]:8080/index.php', (string) $uri);
+    }
+
+    /** @psalm-param class-string<UriFactoryInterface> $provider */
+    #[DataProvider('uriFactoryProviders')]
+    public function testServerNameWithPort(string $provider): void
+    {
+        $this->skipIfNotAvailable($provider);
+        $uriFactory = new UriFactory(new $provider());
+        $uri = $uriFactory->fromGlobals([
+            'SERVER_NAME' => 'example.com:8080',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/index.php',
+        ]);
+
+        self::assertSame('http://example.com:8080/index.php', (string) $uri);
+    }
+
+    /** @psalm-param class-string<UriFactoryInterface> $provider */
+    #[DataProvider('uriFactoryProviders')]
+    public function testHostPortTakesPrecedenceOverServerPort(string $provider): void
+    {
+        $this->skipIfNotAvailable($provider);
+        $uriFactory = new UriFactory(new $provider());
+        $uri = $uriFactory->fromGlobals([
+            'HTTP_HOST' => 'example.com:8080',
+            'SERVER_PORT' => '443',
+            'REQUEST_URI' => '/index.php',
+        ]);
+
+        self::assertSame('http://example.com:8080/index.php', (string) $uri);
+    }
+
+    /** @psalm-param class-string<UriFactoryInterface> $provider */
+    #[DataProvider('uriFactoryProviders')]
+    public function testCreateFromGlobalsWithoutHost(string $provider): void
+    {
+        $this->skipIfNotAvailable($provider);
+        $uri = (new UriFactory(new $provider()))->fromGlobals([]);
+
+        self::assertSame('http', $uri->getScheme());
+    }
+
+    public function testCreateFromGlobalsRejectsNonNumericHostPort(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        (new UriFactory(new SlimUriFactory()))->fromGlobals(['HTTP_HOST' => 'example.com:abc']);
+    }
+
+    public function testCreateFromGlobalsRejectsEmptyHostPort(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        (new UriFactory(new SlimUriFactory()))->fromGlobals(['HTTP_HOST' => 'example.com:']);
     }
 
     /** @psalm-param class-string<UriFactoryInterface> $provider */

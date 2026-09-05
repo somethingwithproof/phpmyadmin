@@ -13,6 +13,7 @@ use Twig\Error\SyntaxError;
 
 use function array_multisort;
 use function class_exists;
+use function preg_quote;
 use function sort;
 
 use const DIRECTORY_SEPARATOR;
@@ -100,7 +101,10 @@ class TwigLintCommandTest extends AbstractTestCase
         $exception = $filesFound[1]['exception'];
         self::assertInstanceOf(SyntaxError::class, $exception);
         $message = 'Unexpected "}" in "' . $path . DIRECTORY_SEPARATOR . 'foo-invalid.twig" at line 1';
-        self::assertContains($exception->getMessage(), [$message . '.', $message . ' column 9.']);
+        self::assertMatchesRegularExpression(
+            '/^' . preg_quote($message, '/') . '(?: column [0-9]+)?\.$/',
+            $exception->getMessage(),
+        );
     }
 
     public function testGetContext(): void

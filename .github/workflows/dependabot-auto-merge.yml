@@ -4,27 +4,60 @@ name: Dependabot Auto-Merge
 "on":
   pull_request_target:
     types: [opened, synchronize, reopened, ready_for_review]
+  schedule:
+    - cron: "17,47 * * * *"
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
+  checks: read
+
+concurrency:
+  group: dependabot-auto-merge
+  cancel-in-progress: false
 
 jobs:
   merge:
-    if: github.actor == 'dependabot[bot]'
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-      - name: Read Dependabot update metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@21025c705c08248db411dc16f3619e6b5f9ea21a # v2
-        with:
-          github-token: "${{ github.token }}"
-
-      - name: Enable auto-merge for patch and minor updates
-        if: >-
-          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
-          steps.metadata.outputs.update-type == 'version-update:semver-minor'
+      - name: Merge Dependabot pull requests with successful checks
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
-        run: gh pr merge "$PR_URL" --auto --squash
+        run: |
+          set -euo pipefail
+
+          gh pr list \
+            --repo "$GITHUB_REPOSITORY" \
+            --state open \
+            --author "app/dependabot" \
+            --json number,isDraft,mergeable \
+            --jq '.[] |
+              select(.isDraft == false and .mergeable == "MERGEABLE") |
+              .number' |
+          while read -r pr; do
+            [ -n "$pr" ] || continue
+
+            states=$(gh pr checks "$pr" \
+              --repo "$GITHUB_REPOSITORY" \
+              --json state \
+              --jq '.[].state' 2>/dev/null || true)
+
+            # Fail closed when a repository has no CI checks.
+            [ -n "$states" ] || continue
+
+            blocked='^(PENDING|QUEUED|IN_PROGRESS|FAILURE|ERROR|CANCELLED|'
+            blocked+='STALE|ACTION_REQUIRED)$'
+            if grep -Eq "$blocked" <<<"$states"; then
+              continue
+            fi
+
+            gh pr merge "$pr" \
+              --repo "$GITHUB_REPOSITORY" \
+              --squash \
+              --delete-branch
+          done
