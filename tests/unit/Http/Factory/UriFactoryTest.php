@@ -94,7 +94,7 @@ final class UriFactoryTest extends TestCase
             'PHP_AUTH_PW' => 'password',
             'SCRIPT_NAME' => '/index.php',
             'QUERY_STRING' => 'route=/server/plugins',
-            'HTTP_HOST' => 'example.com:8080',
+            'HTTP_HOST' => 'example.com',
         ]);
         self::assertSame('http://username:password@example.com:8080/index.php?route=/server/plugins', (string) $uri);
     }
