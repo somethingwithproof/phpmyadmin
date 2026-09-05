@@ -78,11 +78,23 @@ final class UriFactory implements UriFactoryInterface
             );
         }
 
+        $host = '';
         if (isset($server['HTTP_HOST']) && is_string($server['HTTP_HOST'])) {
-            $uri = $uri->withHost($server['HTTP_HOST']);
+            $host = $server['HTTP_HOST'];
         } elseif (isset($server['SERVER_NAME']) && is_string($server['SERVER_NAME'])) {
-            $uri = $uri->withHost($server['SERVER_NAME']);
+            $host = $server['SERVER_NAME'];
         }
+
+        $hostPort = null;
+        if (preg_match('/^(\[[a-fA-F0-9:.]+]):([0-9]+)\z/', $host, $matches) === 1) {
+            $host = $matches[1];
+            $hostPort = (int) $matches[2];
+        } elseif (preg_match('/^([^:]+):([0-9]+)\z/', $host, $matches) === 1) {
+            $host = $matches[1];
+            $hostPort = (int) $matches[2];
+        }
+
+        $uri = $uri->withHost($host);
 
         if (isset($server['SERVER_PORT']) && is_numeric($server['SERVER_PORT']) && $server['SERVER_PORT'] >= 1) {
             $uri = $uri->withPort((int) $server['SERVER_PORT']);
@@ -90,12 +102,9 @@ final class UriFactory implements UriFactoryInterface
             $uri = $uri->withPort($uri->getScheme() === 'https' ? 443 : 80);
         }
 
-        if (preg_match('/^(\[[a-fA-F0-9:.]+])(:\d+)?\z/', $uri->getHost(), $matches) === 1) {
-            $uri = $uri->withHost($matches[1]);
-            if (isset($matches[2])) {
-                $uri = $uri->withPort((int) substr($matches[2], 1));
-            }
-        } else {
+        if ($hostPort !== null) {
+            $uri = $uri->withPort($hostPort);
+        } elseif (preg_match('/^\[[a-fA-F0-9:.]+]\z/', $uri->getHost()) !== 1) {
             $pos = strpos($uri->getHost(), ':');
             if ($pos !== false) {
                 $port = (int) substr($uri->getHost(), $pos + 1);
