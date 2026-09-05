@@ -155,6 +155,16 @@
             "phpstan/extension-installer": true,
             "composer/package-versions-deprecated": true
         },
+        "policy": {
+            "advisories": {
+                "ignore-id": {
+                    "GHSA-gq4g-fpc9-vjfq": {
+                        "on-block": false,
+                        "reason": "The affected SimpleFakeCredentialGenerator is not used; WebAuthn 5 requires an incompatible API migration."
+                    }
+                }
+            }
+        },
         "platform": {
             "php": "8.2.99"
         }

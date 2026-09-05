@@ -6,6 +6,7 @@ namespace PhpMyAdmin\Http\Factory;
 
 use GuzzleHttp\Psr7\HttpFactory;
 use HttpSoft\Message\UriFactory as HttpSoftUriFactory;
+use InvalidArgumentException;
 use Laminas\Diactoros\UriFactory as LaminasUriFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\UriFactoryInterface;
@@ -78,10 +79,27 @@ final class UriFactory implements UriFactoryInterface
             );
         }
 
+        $host = '';
         if (isset($server['HTTP_HOST']) && is_string($server['HTTP_HOST'])) {
-            $uri = $uri->withHost($server['HTTP_HOST']);
+            $host = $server['HTTP_HOST'];
         } elseif (isset($server['SERVER_NAME']) && is_string($server['SERVER_NAME'])) {
-            $uri = $uri->withHost($server['SERVER_NAME']);
+            $host = $server['SERVER_NAME'];
+        }
+
+        $strictHostPort = null;
+        try {
+            $uri = $uri->withHost($host);
+        } catch (InvalidArgumentException $exception) {
+            if (preg_match('/^([^:]+):(\d+)\z/', $host, $matches) !== 1) {
+                throw $exception;
+            }
+
+            $strictHostPort = (int) $matches[2];
+            if ($strictHostPort < 1 || $strictHostPort > 65535) {
+                throw $exception;
+            }
+
+            $uri = $uri->withHost($matches[1]);
         }
 
         if (isset($server['SERVER_PORT']) && is_numeric($server['SERVER_PORT']) && $server['SERVER_PORT'] >= 1) {
@@ -90,7 +108,9 @@ final class UriFactory implements UriFactoryInterface
             $uri = $uri->withPort($uri->getScheme() === 'https' ? 443 : 80);
         }
 
-        if (preg_match('/^(\[[a-fA-F0-9:.]+])(:\d+)?\z/', $uri->getHost(), $matches) === 1) {
+        if ($strictHostPort !== null) {
+            $uri = $uri->withPort($strictHostPort);
+        } elseif (preg_match('/^(\[[a-fA-F0-9:.]+])(:\d+)?\z/', $uri->getHost(), $matches) === 1) {
             $uri = $uri->withHost($matches[1]);
             if (isset($matches[2])) {
                 $uri = $uri->withPort((int) substr($matches[2], 1));
